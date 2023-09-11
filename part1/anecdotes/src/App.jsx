@@ -13,7 +13,7 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
 
-  const [votes, setVotes] = useState(emptyVotes ());
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
    
   const [selected, setSelected] = useState(getRandomIndex (anecdotes))
 
@@ -36,19 +36,22 @@ const App = () => {
     return getRandomInt(0, max);
   }
 
-  function emptyVotes () {
-    let res = {}
-    for (let i = 0; i < anecdotes.length; i ++ ) {
-      res[i] = 0
-    } 
-    return res
-  }
-
   function handleVote () {
-    let newVotes = {...votes};
+    let newVotes = [...votes];
     newVotes[selected] += 1;
     setVotes(newVotes);
   }
+
+  let maxIndex = 0;
+  let maxVotes = 0;
+  for (let i=0; i < anecdotes.length; i ++) {
+    let curVotes = votes[i];
+    if (curVotes > maxVotes) {
+      maxVotes = curVotes;
+      maxIndex = i;
+    }
+  }
+
 
   return (
     <div>
@@ -65,10 +68,10 @@ const App = () => {
       </div>
       <h1>Anecdote with most votes</h1>
       <div>
-        {anecdotes[selected]}
+        {anecdotes[maxIndex]}
       </div>
       <div>
-        Has {votes[selected]} votes
+        Has {maxVotes} votes
       </div>
     </div>
   )

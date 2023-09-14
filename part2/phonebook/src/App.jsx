@@ -6,17 +6,19 @@ const App = () => {
     { name: 'Arto Hellas' }
   ]) 
   const [newName, setNewName] = useState('')
+  const [newPhoneNumber, setPhoneNumber] = useState('')
 
   function handleAddPerson(event) {
     event.preventDefault();
-    let newPerson = {"name": newName};
     if (!checkUnique(newName)) {
       alert(`${newName} is already listed.`);
       return;
     }
+    let newPerson = {"name": newName, "phoneNumber": newPhoneNumber};
     let newPersons = [...persons, newPerson];
     setPersons(newPersons);
     setNewName("");
+    setPhoneNumber("");
   }
 
   function handleNameChange(event) {
@@ -38,9 +40,15 @@ const App = () => {
       <form>
         <div>
           name: <input 
-            onChange={handleNameChange}
+            onChange={(event) => setNewName(event.target.value)}
             value={newName}
             placeholder='Type full name'
+          />
+        </div>
+        <div>number: <input 
+            onChange={(event) => setPhoneNumber(event.target.value)}
+            value={newPhoneNumber}
+            placeholder='801 867 5309'
           />
         </div>
         <div>
@@ -48,9 +56,19 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <ul>
-        {persons.map(person => <Person key={person.name} person={person} />)}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          {persons.map((person) => (
+            <Person key={person.name} person={person} />
+          ))}
+        </tbody>
+      </table>
     </div>
   )
 }

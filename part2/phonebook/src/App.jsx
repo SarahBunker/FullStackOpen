@@ -7,15 +7,29 @@ const App = () => {
   ]) 
   const [newName, setNewName] = useState('')
 
-  function handleNewPhone(event) {
+  function handleAddPerson(event) {
     event.preventDefault();
     let newPerson = {"name": newName};
+    if (!checkUnique(newName)) {
+      alert(`${newName} is already listed.`);
+      return;
+    }
     let newPersons = [...persons, newPerson];
     setPersons(newPersons);
+    setNewName("");
   }
 
   function handleNameChange(event) {
     setNewName(event.target.value);
+  }
+
+  function checkUnique(name) {
+    for (let i = 0; i < persons.length; i ++) {
+      if (name === persons[i].name) {
+        return false
+      }
+    }
+    return true
   }
 
   return (
@@ -30,7 +44,7 @@ const App = () => {
           />
         </div>
         <div>
-          <button type="submit" onClick={handleNewPhone}>add</button>
+          <button type="submit" onClick={handleAddPerson}>add</button>
         </div>
       </form>
       <h2>Numbers</h2>

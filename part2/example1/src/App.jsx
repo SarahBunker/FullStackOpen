@@ -28,7 +28,7 @@ const App = ({notesInitial}) => {
       </ul>
       <form onSubmit={addNote}>
         <input
-          placeholder="Enter something..."
+          placeholder="Enter something for new note..."
           value={newNote}
           onChange={handleNoteChange}
         />

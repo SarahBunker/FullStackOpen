@@ -3,7 +3,7 @@ import Note from "./components/Note"
 
 const App = ({notesInitial}) => {
   const [notes, setNotes] = useState(notesInitial);
-  const [newNote, setNewNote] = useState('a new note...');
+  const [newNote, setNewNote] = useState("");
 
   function addNote(event) {
     event.preventDefault();
@@ -13,6 +13,7 @@ const App = ({notesInitial}) => {
       id: notes.length + 1,
     }
     setNotes(notes.concat(NoteObject));
+    setNewNote("")
   }
 
   function handleNoteChange (event) {
@@ -26,7 +27,11 @@ const App = ({notesInitial}) => {
         {notes.map( note => <Note key={note.id} note={note}/>)}
       </ul>
       <form onSubmit={addNote}>
-        <input value={newNote} onChange={handleNoteChange}/>
+        <input
+          placeholder="Enter something..."
+          value={newNote}
+          onChange={handleNoteChange}
+        />
         <button type="submit">save</button>
       </form>
     </div>

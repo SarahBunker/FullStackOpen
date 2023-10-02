@@ -14,12 +14,12 @@ const App = () => {
   const [filter, setFilter] = useState('');
 
   async function getNotes() {
-    let fetchedPersons = await axios.get('http://localhost:3001/persons');
-    setPersons(fetchedPersons);
+    let result = await axios.get('http://localhost:3001/persons');
+    setPersons(result.data);
   }
 
   useEffect(() => {
-
+    getNotes();
   }, [])
 
   return (

@@ -18,24 +18,34 @@ const App = () => {
       })
   }, [])
 
-  async function addNoteServer(note) {
-    let result = await axios.post('http://localhost:3001/notes', note);
+  async function addNoteServer(noteObject) {
+    let result = await axios.post('http://localhost:3001/notes', noteObject);
     let newNotes = [...notes, result.data];
     setNotes(newNotes);
   }
 
   function addNote(event) {
     event.preventDefault();
-    const NoteObject = {
+    const noteObject = {
       content: newNote,
       import: Math.random() < 0.5
     }
-    addNoteServer(NoteObject)
+    addNoteServer(noteObject)
     setNewNote("")
   }
 
   function handleNoteChange (event) {
     setNewNote(event.target.value);
+  }
+
+  const toggleImportanceOf = id => {
+    const url = `http://localhost:3001/notes/${id}`
+    const note = notes.find(n => n.id === id)
+    const changedNote = { ...note, important: !note.important }
+  
+    axios.put(url, changedNote).then(response => {
+      setNotes(notes.map(n => n.id !== id ? n : response.data))
+    })
   }
 
   return (
@@ -47,7 +57,11 @@ const App = () => {
         </button>
       </div>
       <ul>
-        {notesToShow.map( note => <Note key={note.id} note={note}/>)}
+        {notesToShow.map( note => <Note
+          key={note.id}
+          note={note}
+          toggleImportance={() => toggleImportanceOf(note.id)}
+        />)}
       </ul>
       <form onSubmit={addNote}>
         <input

@@ -11,24 +11,26 @@ const App = () => {
   const notesToShow = showAll ? notes : notes.filter(note => note.important);
 
   useEffect(() => {
-    console.log('effect')
     axios
       .get('http://localhost:3001/notes')
       .then(response => {
-        console.log('promise fulfilled')
         setNotes(response.data)
       })
   }, [])
-  console.log('render', notes.length, 'notes')
+
+  async function addNoteServer(note) {
+    let result = await axios.post('http://localhost:3001/notes', note);
+    let newNotes = [...notes, result.data];
+    setNotes(newNotes);
+  }
 
   function addNote(event) {
     event.preventDefault();
     const NoteObject = {
       content: newNote,
-      import: Math.random() < 0.5,
-      id: notes.length + 1,
+      import: Math.random() < 0.5
     }
-    setNotes(notes.concat(NoteObject));
+    addNoteServer(NoteObject)
     setNewNote("")
   }
 

@@ -3,6 +3,7 @@ import axios from 'axios'
 import AddPersonForm from './assets/components/AddPersonForm';
 import PhonebookList from './assets/components/PhonebookList';
 import FilterComponent from './assets/components/FilterComponent';
+import phonebookService from './services/phonebook';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -14,8 +15,8 @@ const App = () => {
   const [filter, setFilter] = useState('');
 
   async function getNotes() {
-    let result = await axios.get('http://localhost:3001/persons');
-    setPersons(result.data);
+    let notes = await phonebookService.getAll();
+    setPersons(notes);
   }
 
   useEffect(() => {

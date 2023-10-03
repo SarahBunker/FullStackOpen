@@ -1,9 +1,15 @@
 import React from 'react';
 import { useState } from 'react';
+import phonebookService from '../../services/phonebook';
 
 const AddPersonForm = ({setPersons, persons}) => {
   const [newName, setNewName] = useState('');
   const [newPhoneNumber, setPhoneNumber] = useState('');
+
+  async function addPerson(newPerson) {
+    let personAdded = await phonebookService.create(newPerson);
+    return personAdded;
+  }
 
   function handleAddPerson(event) {
     event.preventDefault();
@@ -12,6 +18,8 @@ const AddPersonForm = ({setPersons, persons}) => {
       return;
     }
     let newPerson = {"name": newName, "phoneNumber": newPhoneNumber};
+    addPerson(newPerson);
+
     let newPersons = [...persons, newPerson];
     setPersons(newPersons);
     setNewName("");

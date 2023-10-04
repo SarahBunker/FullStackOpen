@@ -6,7 +6,7 @@ async function getAll() {
     return result.data
   } catch (error) {
     alert("Error getting all people in phonebook");
-    console.log(error);
+    console.error('There was an error!', error);
   }
 }
 
@@ -16,7 +16,7 @@ async function create(newPerson) {
     return result.data;
   } catch (error) {
     alert("Error adding new person to phonebook");
-    console.log(error);
+    console.error('There was an error!', error);
   }
 }
 
@@ -26,8 +26,18 @@ async function update(updatedPerson) {
     return result.data;
   } catch (error) {
     alert("Error updating person in phonebook");
-    console.log(error);
+    console.error('There was an error!', error);
   }
 }
 
-export default { getAll, create, update }
+async function deletePerson(id) {
+  try {
+    let result = await axios.delete(`http://localhost:3001/persons/${id}`);
+    return id;
+  } catch (error) {
+    alert(`Error deleting person in phonebook with ID ${id}`);
+    console.error('There was an error!', error);
+  }
+}
+
+export default { getAll, create, update, deletePerson }

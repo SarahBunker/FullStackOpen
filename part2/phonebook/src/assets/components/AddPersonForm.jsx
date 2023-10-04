@@ -11,14 +11,14 @@ const AddPersonForm = ({setPersons, persons}) => {
     return personAdded;
   }
 
-  function handleAddPerson(event) {
+  async function handleAddPerson(event) {
     event.preventDefault();
     if (!checkUnique(newName)) {
       alert(`${newName} is already listed.`);
       return;
     }
     let newPerson = {"name": newName, "phoneNumber": newPhoneNumber};
-    addPerson(newPerson);
+    newPerson = await addPerson(newPerson);
 
     let newPersons = [...persons, newPerson];
     setPersons(newPersons);

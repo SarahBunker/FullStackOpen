@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import AddPersonForm from './assets/components/AddPersonForm';
 import PhonebookList from './assets/components/PhonebookList';
 import FilterComponent from './assets/components/FilterComponent';
@@ -14,13 +13,13 @@ const App = () => {
   ]);
   const [filter, setFilter] = useState('');
 
-  async function getNotes() {
+  async function getPeople() {
     let notes = await phonebookService.getAll();
     setPersons(notes);
   }
 
   useEffect(() => {
-    getNotes();
+    getPeople();
   }, [])
 
   return (
@@ -37,6 +36,7 @@ const App = () => {
       <PhonebookList
         persons={persons}
         filter={filter}
+        setPersons={setPersons}
       />
     </div>
   )
